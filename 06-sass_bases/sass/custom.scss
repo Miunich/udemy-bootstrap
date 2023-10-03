@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Fuggles&family=Montserrat:wght@100;400&family=Roboto:wght@100&display=swap');
+
+// font-family: 'Dancing Script', cursive;
+// font-family: 'Fuggles', cursive;
+// font-family: 'Montserrat', sans-serif;
+// font-family: 'Roboto', sans-serif;
+
+$danger:peru;
+$font-family-base: 'Dancing Script', cursive;
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+p{
+    color:$red-900;
+    background-color: #555;
+}

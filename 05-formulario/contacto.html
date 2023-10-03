@@ -7,6 +7,14 @@
     <title>Formulario</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        .toast{
+            position: absolute;
+            bottom: 0;
+            margin-bottom:20px;
+            margin-left: 20px; 
+        }
+    </style>
 </head>
 
 <body>
@@ -36,40 +44,42 @@
         <h1>Contacto</h1>
         <form id="formulario">
             <div class="mb-3">
-                
+
                 <label for="email" class="form-label">Email:</label>
-                <input
-                id="email" 
-                type="email"
-                class="form-control"
-                placeholder="Ingresa aquí tu correo"
-                aria-describedby="emailHelp"
-                required
-                name="emailCampo"
-                >
+                <input id="email" type="email" class="form-control" placeholder="Ingresa aquí tu correo"
+                    aria-describedby="emailHelp" required name="emailCampo">
                 <div id="emailHelp" class="form-text">No compartiremos tu email con nadie</div>
                 <div class="mb-3">
                     <label for="contraseña" class="form-label">Contraseña:</label>
                     <input id="contraseña" type="password" class="form-control" placeholder="Ingresa tu contreña"
-                    required
-                    name="passwordCampo"
-                    >
-                    
+                        required name="passwordCampo">
+
                 </div>
             </div>
             <div class="mb-3">
-                <input 
-                type="checkbox"
-                name="checkCampo"
-                id="checkbox"
-                class="form-check-input">
+                <input type="checkbox" name="checkCampo" id="checkbox" class="form-check-input">
                 <label for="checkbox" class="form-check-label">Checkbox</label>
             </div>
-            <button class="btn btn-primary w-100" type="submit">
+            <button id="btnEnviar" class="btn btn-primary w-100 " type="submit">
                 Enviar
-            </button>   
+            </button>
+            <button id="btnCargando" class="btn btn-secondary w-100 d-none" disabled type="button"><span
+                    class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                Cargando...
+            </button>
         </form>
     </div>
+    <!-- toast -->
+    <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                Formulario procesado
+            </div>
+            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+    <!-- toast -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
