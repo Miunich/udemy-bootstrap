@@ -1,11 +1,14 @@
-const btnIngresar = document.querySelector("#btnIngresar")
+const btnIngresar = document.querySelector("#btnIngresar");
+const btnSalir = document.querySelector("#btnSalir");
 const chat = document.querySelector("#chat")
-const formulario = document.querySelector("#formulario")
-const btnEnviar= document.querySelector("#btnEnviar")
-const msgInicio = document.querySelector("#msgInicio")
+const formulario = document.querySelector("#formulario");
+const btnEnviar= document.querySelector("#btnEnviar");
+const msgInicio = document.querySelector("#msgInicio");
+const msgTemplate = document.querySelector("#msgTemplate");
+
 
 import { getAuth,GoogleAuthProvider,signInWithPopup,  onAuthStateChanged, signOut} from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js'
-import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js'
+import { getFirestore,collection, addDoc, query,onSnapshot, orderBy } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -31,6 +34,10 @@ const eliminarElemento = (elemento) =>{
 const visualizarElemento = (elemento) =>{
     elemento.classList.remove("d-none")
 }
+let unsubscribe;
+
+
+const db = getFirestore(app);
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -42,6 +49,31 @@ onAuthStateChanged(auth, (user) => {
     visualizarElemento(formulario);
     visualizarElemento(chat);
     eliminarElemento(msgInicio);
+
+    const q = query(collection(db,"chats"), orderBy("fecha"));
+    chat.innerHTML = "";
+    unsubscribe = onSnapshot(q, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === "added") {
+            console.log("New msg: ", change.doc.data());
+            // manipulando el template
+            const clone = msgTemplate.content.cloneNode(true);
+            clone.querySelector("span").textContent = change.doc.data().msg;
+            if(user.uid === change.doc.data().uid){
+              clone.querySelector("div").classList.add("text-end")
+              clone.querySelector("span").classList.add("bg-success");
+
+            }else{
+              clone.querySelector("div").classList.add("text-start")
+              clone.querySelector("span").classList.add("bg-secondary");
+            }
+            chat.append(clone);
+        }
+        chat.scrollTop = chat.scrollHeight;
+      });
+    });
+
+
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/auth.user
     const uid = user.uid;
@@ -57,6 +89,10 @@ onAuthStateChanged(auth, (user) => {
     eliminarElemento(formulario);
     eliminarElemento(chat);
     visualizarElemento(msgInicio);
+
+    if(unsubscribe){
+      unsubscribe();
+    }
   }
 });
 
@@ -73,16 +109,31 @@ btnIngresar.addEventListener("click", async()=>{
 });
 
 btnSalir.addEventListener("click", async () =>{
-    await signOut(auth)
+    await signOut(auth);
 })
 
 formulario.addEventListener("submit",async(e) =>{
     e.preventDefault();
     console.log(formulario.msg.value);
+    if(!formulario.msg.value.trim()){
+      
+      formulario.msg.value = "";
+      formulario.msg.focus();
+      return console.log("Tienes que escribir algo");
+    }
     try {
+      btnEnviar.disabled =true
+      await addDoc(collection(db,"chats"), {
+        msg: formulario.msg.value.trim(),
+        uid: auth.currentUser.uid,
+        fecha: new Date(),
+      });
+      formulario.msg.value = "";
         
     } catch (error) {
-        console.log(error)
+        console.log(error);
         
+    }finally{
+      btnEnviar.disabled =false
     }
 })
