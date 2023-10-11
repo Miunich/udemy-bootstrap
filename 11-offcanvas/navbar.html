@@ -6,9 +6,13 @@
     <title>Document</title>
     <link rel="stylesheet" href="sass/custom.css">
 </head>
-<body>
-    <nav class="navbar navbar-dark bg-primary text-white fixed-top">
-        <div class="container">
+<body
+    style="position: relative;"
+    data-bs-spy="scroll"
+    data-bs-target ="#navbarCanvas"    
+>
+    <nav class="navbar navbar-dark bg-primary  fixed-top" id="navbarCanvas">
+        <div class="container text-white">
             <i class="bi bi-sunglasses"
             type="button"
             aria-controls="offcanvasDemo1"
@@ -41,7 +45,7 @@
     aria-labelledby="offcanvasDemo1Label"
     >
     <div class="offcanvas-header">
-        <h2 class="offcanvas-title text-center">OffCanvas Title</h2>
+        <h2 class="offcanvas-title text-center" >OffCanvas Title</h2>
         <h2
         type="button"
         data-bs-dismiss="offcanvas"
@@ -53,11 +57,7 @@
     <div class="offcanvas-body">
         <p class="text-center">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia odit ad assumenda, veniam rerum omnis similique quidem at dicta alias. Similique porro voluptatem, maiores pariatur sint vitae quaerat voluptates odit?</p>
         <div class="d-grid gap-2">
-            <a 
-            href="#uno"
-            class="btn btn-info text-white"
-            
-            >
+            <a href="#uno" class="btn btn-info text-white"  >
             <i class="bi bi-google"></i>
             Acceder
         </a>
